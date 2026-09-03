@@ -8,7 +8,12 @@
 
 <h1 th:text="${pageTitle}">Products</h1>
 
-<p>This is our future product listing page.</p>
+<div th:each="product : ${products}">
+    <h3 th:text="${product.name}">Product Name</h3>
+    <p>Price: <span th:text="${product.price}">0</span></p>
+    <p th:text="${product.description}">Description</p>
+    <hr>
+</div>
 
 <a href="/">Go Home</a>
 
