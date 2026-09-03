@@ -11,4 +11,10 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/Products")
+    public String products(Model model) {
+        model.addAttribute("pageTitle", "Products");
+        return "products";
+    }
+
 }
