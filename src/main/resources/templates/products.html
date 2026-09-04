@@ -12,6 +12,9 @@
     <h3 th:text="${product.name}">Product Name</h3>
     <p>Price: <span th:text="${product.price}">0</span></p>
     <p th:text="${product.description}">Description</p>
+    <a th:href="@{/products/edit/{id}(id=${product.id})}">
+        Edit
+    </a>
     <hr>
 </div>
 
