@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+</head>
+<body>
+
+<h1>Shopping Cart</h1>
+
+<div th:if="${cartItems.isEmpty()}">
+    <p>Your cart is empty.</p>
+</div>
+
+<div th:each="item : ${cartItems}">
+
+    <h3 th:text="${item.product.name}"></h3>
+
+    <p>
+        Price:
+        <span th:text="${item.product.price}"></span>
+    </p>
+
+    <div>
+
+        <form th:action="@{/cart/decrease/{id}(id=${item.product.id})}"
+              method="post"
+              style="display:inline;">
+
+            <button type="submit">-</button>
+
+        </form>
+
+        <span th:text="${item.quantity}"></span>
+
+        <form th:action="@{/cart/increase/{id}(id=${item.product.id})}"
+              method="post"
+              style="display:inline;">
+
+            <button type="submit">+</button>
+
+        </form>
+
+    </div>
+    <p>
+        Subtotal:
+        <span th:text="${item.product.price * item.quantity}"></span>
+    </p>
+    <form th:action="@{/cart/remove/{id}(id=${item.product.id})}"
+          method="post"
+          onsubmit="return confirm('Remove this item from the cart?');">
+
+        <button type="submit">Remove</button>
+
+    </form>
+
+    <hr>
+
+</div>
+
+<h2>
+    Total:
+    <span th:text="${total}"></span>
+</h2>
+
+<a href="/products">Continue Shopping</a>
+
+</body>
+</html>

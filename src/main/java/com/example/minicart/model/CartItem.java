@@ -22,4 +22,7 @@ public class CartItem {
     public void increaseQuantity() {
         quantity++;
     }
+    public void decreaseQuantity() {
+        quantity--;
+    }
 }
