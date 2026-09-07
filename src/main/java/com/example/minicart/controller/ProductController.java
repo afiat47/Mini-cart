@@ -1,6 +1,7 @@
 package com.example.minicart.controller;
 
 import com.example.minicart.entity.Product;
+import com.example.minicart.service.CartService;
 import com.example.minicart.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,12 @@ import org.springframework.ui.Model;
 public class ProductController {
 
     private final ProductService productService;
+    private final CartService cartService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CartService cartService) {
 
         this.productService = productService;
+        this.cartService = cartService;
     }
 
     @GetMapping
@@ -46,6 +49,20 @@ public class ProductController {
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+        return "redirect:/products";
+    }
+
+    @GetMapping("/search")
+    public String searchProduct(@RequestParam String item, Model model) {
+        model.addAttribute("PageTitle", "Products");
+        model.addAttribute("products",productService.searchProduct(item));
+        return "products";
+    }
+
+    @PostMapping("/cart/add/{id}")
+    public String addToCart(@PathVariable Long id) {
+        Product product = productService.getProductByID(id);
+        cartService.addToCart(product);
         return "redirect:/products";
     }
 }

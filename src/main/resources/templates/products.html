@@ -7,6 +7,17 @@
 <body>
 
 <h1 th:text="${pageTitle}">Products</h1>
+<form th:action="@{/products/search}" method="get">
+
+    <input type="text"
+           name="item"
+           placeholder="Search products">
+
+    <button type="submit">Search</button>
+
+</form>
+
+<br>
 
 <div th:each="product : ${products}">
     <h3 th:text="${product.name}">Product Name</h3>
@@ -20,6 +31,12 @@
           onsubmit="return confirm('Delete this product?');">
 
         <button type="submit">Delete</button>
+
+    </form>
+    <form th:action="@{/products/cart/add/{id}(id=${product.id})}"
+          method="post">
+
+        <button type="submit">Add to Cart</button>
 
     </form>
     <hr>
