@@ -42,4 +42,10 @@ public class ProductController {
         model.addAttribute("product",product);
         return "product-form";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return "redirect:/products";
+    }
 }

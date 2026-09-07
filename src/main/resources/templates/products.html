@@ -15,6 +15,13 @@
     <a th:href="@{/products/edit/{id}(id=${product.id})}">
         Edit
     </a>
+    <form th:action="@{/products/delete/{id}(id=${product.id})}"
+          method="post"
+          onsubmit="return confirm('Delete this product?');">
+
+        <button type="submit">Delete</button>
+
+    </form>
     <hr>
 </div>
 
