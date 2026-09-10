@@ -12,6 +12,13 @@
     <p>Your cart is empty.</p>
 </div>
 
+<p>
+    Cart:
+    <a href="/cart">
+        <span th:text="${cartCount}"></span> items
+    </a>
+</p>
+
 <div th:each="item : ${cartItems}">
 
     <h3 th:text="${item.product.name}"></h3>

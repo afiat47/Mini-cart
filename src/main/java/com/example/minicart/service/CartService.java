@@ -4,12 +4,14 @@ import com.example.minicart.entity.Product;
 import com.example.minicart.model.CartItem;
 import org.springframework.stereotype.Service;
 import com.example.minicart.model.CartItem;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@SessionScope
 public class CartService {
     private final Map<Long, CartItem> cart = new HashMap<>();
 
@@ -31,7 +33,7 @@ public class CartService {
     public Double getTotal() {
         Double total = 0.0;
         for(CartItem item: cart.values()) {
-            total =+ item.getProduct().getPrice() * item.getQuantity();
+            total += item.getProduct().getPrice() * item.getQuantity();
         }
         return total;
     }
@@ -45,7 +47,6 @@ public class CartService {
     public void decreaseQuantity(Long productId) {
         if(cart.containsKey(productId)) {
             CartItem item = cart.get(productId);
-            cart.get(productId).decreaseQuantity();
 
             if (item.getQuantity() > 1) {
                 item.decreaseQuantity();
@@ -57,5 +58,14 @@ public class CartService {
 
     public void removeItem(Long productId) {
         cart.remove(productId);
+    }
+
+    public int cartItemCount() {
+        int count = 0;
+        for(CartItem item : cart.values()) {
+            count = count + item.getQuantity();
+        }
+
+        return count;
     }
 }

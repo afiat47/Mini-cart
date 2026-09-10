@@ -17,6 +17,13 @@
 
 </form>
 
+<p>
+    Cart:
+    <a href="/cart">
+        <span th:text="${cartCount}"></span> items
+    </a>
+</p>
+
 <br>
 
 <div th:each="product : ${products}">
