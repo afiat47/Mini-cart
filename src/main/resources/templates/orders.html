@@ -21,7 +21,7 @@
 
     <p>
         Date:
-        <span th:text="${order.createdAt}"></span>
+        <span th:text="${#temporals.format(order.createdAt, 'dd MMM yyyy HH:mm')}"></span>
     </p>
 
     <div th:each="item : ${order.items}">
@@ -40,7 +40,7 @@
 
     <h3>
         Total:
-        <span th:text="${order.total}"></span>
+        <span th:text="'$' + ${#numbers.formatDecimal(order.total, 1, 2)}"></span>
     </h3>
 
     <hr>
