@@ -36,4 +36,9 @@ public class ProductApiController {
         product.setId(id);
         return productService.saveProduct(product);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
 }
