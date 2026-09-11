@@ -1,6 +1,7 @@
 package com.example.minicart.service;
 
 import com.example.minicart.entity.Product;
+import com.example.minicart.exception.ProductNotFoundException;
 import com.example.minicart.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class ProductService {
     }
 
     public Product getProductByID(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     public void deleteProduct(Long id) {

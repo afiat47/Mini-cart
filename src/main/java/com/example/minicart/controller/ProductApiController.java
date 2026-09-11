@@ -1,7 +1,11 @@
 package com.example.minicart.controller;
 
+import com.example.minicart.dto.ProductRequest;
+import com.example.minicart.dto.ProductResponse;
 import com.example.minicart.entity.Product;
 import com.example.minicart.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +31,23 @@ public class ProductApiController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResponse createProduct(@Valid @RequestBody ProductRequest request) {
+
+        Product product = new Product();
+
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setDescription(request.getDescription());
+
+        Product saved = productService.saveProduct(product);
+
+        return new ProductResponse(
+                saved.getId(),
+                saved.getName(),
+                saved.getPrice(),
+                saved.getDescription()
+        );
     }
 
     @PutMapping("/{id}")
@@ -38,6 +57,7 @@ public class ProductApiController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
