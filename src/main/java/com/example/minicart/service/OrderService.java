@@ -6,6 +6,8 @@ import com.example.minicart.model.CartItem;
 import com.example.minicart.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -30,5 +32,12 @@ public class OrderService {
 
             order.getItems().add(orderItem);
         }
+
+        orderRepository.save(order);
+        cartService.clearCart();
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 }

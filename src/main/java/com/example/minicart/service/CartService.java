@@ -68,4 +68,8 @@ public class CartService {
 
         return count;
     }
+
+    public void clearCart() {
+        cart.clear();
+    }
 }

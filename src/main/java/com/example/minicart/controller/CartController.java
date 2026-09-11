@@ -1,5 +1,6 @@
 package com.example.minicart.controller;
 
+import com.example.minicart.service.OrderService;
 import org.springframework.ui.Model;
 import com.example.minicart.service.CartService;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class CartController {
     private final CartService cartService;
+    private final OrderService orderService;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, OrderService orderService) {
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/cart")
@@ -39,6 +42,14 @@ public class CartController {
     public String removeItem(@PathVariable Long id) {
         cartService.removeItem(id);
         return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/checkout")
+    public String checkout() {
+
+        orderService.CheckOut();
+
+        return "redirect:/products";
     }
 
 }

@@ -70,6 +70,14 @@
     <span th:text="${total}"></span>
 </h2>
 
+<form th:if="${!cartItems.isEmpty()}"
+      th:action="@{/cart/checkout}"
+      method="post">
+
+    <button type="submit">Checkout</button>
+
+</form>
+
 <a href="/products">Continue Shopping</a>
 
 </body>
