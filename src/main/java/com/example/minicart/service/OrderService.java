@@ -2,6 +2,8 @@ package com.example.minicart.service;
 
 import com.example.minicart.entity.Order;
 import com.example.minicart.entity.OrderItem;
+import com.example.minicart.exception.EmptyCartException;
+import com.example.minicart.exception.OrderNotFoundException;
 import com.example.minicart.model.CartItem;
 import com.example.minicart.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,16 @@ public class OrderService {
         this.cartService = cartService;
     }
 
-    public void CheckOut() {
+    public Order CheckOut() {
+        if (cartService.getCartItem().isEmpty()) {
+            throw new EmptyCartException();
+        }
+
         Order order = new Order();
         order.setTotal(cartService.getTotal());
 
-        OrderItem orderItem = new OrderItem();
-
         for(CartItem cartItem : cartService.getCartItem()) {
+            OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setPrice(cartItem.getProduct().getPrice());
@@ -33,11 +38,16 @@ public class OrderService {
             order.getItems().add(orderItem);
         }
 
-        orderRepository.save(order);
+        Order saved = orderRepository.save(order);
         cartService.clearCart();
+        return saved;
     }
 
     public List<Order> getAllOrders() {
         return orderRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
 }

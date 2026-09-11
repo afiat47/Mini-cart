@@ -21,7 +21,10 @@ public class ProductApiController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(@RequestParam(required = false) String search) {
+        if (search != null && !search.isBlank()) {
+            return productService.searchProduct(search);
+        }
         return productService.getAllProducts();
     }
 

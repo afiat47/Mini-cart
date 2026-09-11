@@ -25,6 +25,32 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public Map<String, Object> handleOrderNotFound(
+            OrderNotFoundException ex,
+            HttpServletRequest request) {
+
+        return Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 404,
+                "error", ex.getMessage(),
+                "path", request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(EmptyCartException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Map<String, Object> handleEmptyCart(EmptyCartException ex) {
+
+        return Map.of(
+                "status", 400,
+                "error", ex.getMessage()
+        );
+    }
+
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
